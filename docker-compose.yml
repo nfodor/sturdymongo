@@ -7,7 +7,7 @@ secrets:
     file: mongo-user-passwd
 
 services:
-  mongo:
+  mongodb:
     image: mongo:latest
     environment:
       MONGO_INITDB_ROOT_USERNAME: $MONGO_ROOT_USER
@@ -20,3 +20,5 @@ services:
     secrets:
       - mongo-root-passwd
       - mongo-user-passwd
+    ports:
+      - "27017:27017"
