@@ -12,5 +12,8 @@ Obstacles to install mongodb properly for production are multiple but, in no spe
  - No time for establishing a proper TLS infrastructure. 
 
 How to install mongodb with Sturdy Mongo:
-Spin up your terminal, git clone this repo, cd into it then run this:
+- copy `mongo-root-passwd.example` to `mongo-root-passwd` and edit it with the proper mongodb root password.
+- copy `mongo-user-passwd.example` to `mongo-user-passwd` and edit it with the proper mongodb user password.
+- Spin up your terminal, git clone this repo, cd into it then run this:
 `./create.sh`
+
