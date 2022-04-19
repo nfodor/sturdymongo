@@ -1,2 +1,9 @@
 mongo-user-passwd
 mongo-root-passwd
+*.csr
+*.key
+node_modules
+nodejs/node_modules
+.*
+.package-lock.json
+.pem
