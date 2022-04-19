@@ -4,7 +4,7 @@ Somehow sturdier...
 Goal is to launch mongo real fast and, maybe, have to go into production 
 with it. And even though, if it had been for production, 
 it would have been a very different 
-planned install, make it study anyway.
+planned install, make it sturdy anyway.
 
 Obstacles to install mongodb properly for production are multiple but, in no specific order:
 
