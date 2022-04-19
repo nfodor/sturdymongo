@@ -8,17 +8,45 @@ secrets:
 
 services:
   mongodb:
-    image: mongo:latest
+    build: .
+    container_name: mongodb
     environment:
-      MONGO_INITDB_ROOT_USERNAME: $MONGO_ROOT_USER
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_INITDB_ROOT_USER
       MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo-root-passwd
-      MONGO_INITDB_USERNAME: $MONGO_USER
-      MONGO_INITDB_PASSWORD_FILE: /run/secrets/mongo-user-passwd
+      MONGO_USER_USERNAME: $MONGO_USER
+      MONGO_USER_PASSWORD_FILE: /run/secrets/mongo-user-passwd
       MONGO_INITDB_DATABASE: $MONGO_DB
+
     volumes:
-      - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
+#      - $PWD/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
+      - mongo_data:/data/db
+      - mongo_journal:/data/db/journal
+      - ./certs:/certs
+#      - ./certs/mongodb_node_1.pem:/certs/mongodb_node_1.pem
+#      - ./certs/test-ca.pem:/certs/test-ca.pem
+#      - ./certs/test-client.pem:/certs/test-client.pem
+#      - ./certs/test-server1.pem:/certs/test-server1.pem
+#      - ./certs/ca.pem:/certs/ca.pem
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     secrets:
       - mongo-root-passwd
       - mongo-user-passwd
+    command: ["mongod",
+              "--tlsMode",
+              "allowTLS",
+              "--tlsCertificateKeyFile",
+              "/certs/mongodb_node_1.pem",
+              "--tlsCAFile",
+              "/certs/ca.pem"
+     ]
+#      - "mongod --tlsMode requireTLS --tlsPEMKeyFile /data/certs/mongodb_node_1.pem "
+      #- "mongo --tlsMode requireTLS --tlsCertificateKeyFile /data/certs/test-ca.pem --tlsCAFile /data/certs/ISRG_Root_X1.pem"
     ports:
       - "27017:27017"
+volumes:
+  mongo_data:
+    external: true
+  mongo_journal:
+    external: true
+
+
